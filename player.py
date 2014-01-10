@@ -21,10 +21,23 @@ class Player(pyglet.sprite.Sprite):
         self.keyh = key.KeyStateHandler()
         self.event_handlers = [self, self.keyh]
 
+        # Movement
+        self.walking = False
+
     def update(self, dt):
 
         # Movement controls, WASD.
         if self.keyh[key.A]:
             self.x -= self.walk_speed * dt
+            if not self.walking:
+                self.image = resource.demigod_animstep
+                self.walking = True
         elif self.keyh[key.D]:
             self.x += self.walk_speed * dt
+            if not self.walking:
+                self.image = resource.demigod_animstep
+                self.walking = True
+        else:
+            self.image = resource.demigod_img
+            self.walking = False
+            
