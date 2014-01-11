@@ -1,8 +1,8 @@
 import pyglet
-import resource
+import resource, i_sprite
 from pyglet.window import key
 
-class Player(pyglet.sprite.Sprite):
+class Player(i_sprite.ISprite):
     def __init__(self, lives=3,
                        name="Default Player",
                        walk_speed=250,
