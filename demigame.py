@@ -14,13 +14,12 @@ demi_msg = "demigame prototype. Not ready for official release."
 demi_lbl = pyglet.text.Label(text=demi_msg, x=10, y=10, batch=b_obj)
 
 # Create sprites / players.
-demigod = player.Player(lives=99, name="Demi God", walk_speed=300, mass=300, 
-                        player_img=resource.demigod_img, x=10, y=50, batch=b_obj)
-guard = i_sprite.ISprite(img=resource.ponyo_img, x=700, y=50, batch=b_obj)
-guard.add_duty(i_sprite.ISprite.waddle)
+hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300, 
+                        player_img=resource.hero_img, walk_anim=resource.hero_animwalk,
+                        x=500, y=500, batch=b_obj)
 
 # Account for all of our interactive game objects.
-g_objs = [demigod, guard]
+g_objs = [hero]
 
 # Handle handlers.
 for obj in g_objs:

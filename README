@@ -1,4 +1,10 @@
 A game very much in progress.
 
+So here's what I'm thinking at the moment.
+  - A top down shooter mocking doom, with 
+      pistols, shotguns, and of course the BFG.
+
 Depends:
   python-pyglet
+
+Disclaimer: I am not a competent artist :(

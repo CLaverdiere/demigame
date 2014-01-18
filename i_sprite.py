@@ -6,6 +6,8 @@ import random
 class ISprite(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(ISprite, self,).__init__(*args, **kwargs)
+
+        # Keep track of all events happening
         self.event_handlers = []
 
         # This is a list of functions for the sprite to
