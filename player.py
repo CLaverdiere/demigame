@@ -1,5 +1,5 @@
 import pyglet
-import resource, i_sprite, util
+import resource, i_sprite, util, weapon
 import math
 from pyglet.window import key
 
@@ -19,6 +19,7 @@ class Player(i_sprite.ISprite):
         self.mass = mass
         self.player_img = player_img
         self.walk_anim = walk_anim
+        self.holding_gun = False
 
         # Key handling
         self.keyh = key.KeyStateHandler()
@@ -62,4 +63,15 @@ class Player(i_sprite.ISprite):
 
         # Adjust sprite for not walking.
         if not self.walking:
-            self.image = self.player_img
+            if self.holding_gun:
+                self.image = resource.hero_img_pistol
+            else:
+                self.image = self.player_img
+
+    def handle_collision(self, other):
+        if isinstance(other, weapon.Weapon):
+            self.holding_gun = True
+            print "Picked up weapon!"
+        else:
+            pass
+
