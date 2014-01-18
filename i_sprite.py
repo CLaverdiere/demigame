@@ -42,7 +42,7 @@ class ISprite(pyglet.sprite.Sprite):
         w_dist = abs(self.x - other.x)
         h_dist = abs(self.y - other.y)
 
-        if w_dist < w_max or h_dist < h_max:
+        if w_dist < w_max and h_dist < h_max:
             return True
         else:
             return False
