@@ -2,15 +2,16 @@ import pyglet
 import resource, player, i_sprite
 
 win = pyglet.window.Window(fullscreen=True)
+# win = pyglet.window.Window(height=800, width=800)
 
 # Our batch for holding all objects to be drawn.
 b_obj = pyglet.graphics.Batch()
 
 # Write info strings to the bottom of the screen.
-help_msg = "Controls: WASD"
+help_msg = "Controls: WASD for movement, Mouse for look."
 help_lbl = pyglet.text.Label(text=help_msg, x=10, y=30, batch=b_obj)
 
-demi_msg = "demigame prototype. Not ready for official release."
+demi_msg = "Demigame prototype. Not ready for critical acclaim."
 demi_lbl = pyglet.text.Label(text=demi_msg, x=10, y=10, batch=b_obj)
 
 # Create sprites / players.
