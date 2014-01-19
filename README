@@ -3,6 +3,8 @@ A game very much in progress.
 So here's what I'm thinking at the moment.
   - A top down shooter mocking doom, with 
       pistols, shotguns, and of course the BFG.
+  - The map should spin around the player, and the player
+      should always face front.
 
 Depends:
   python-pyglet
