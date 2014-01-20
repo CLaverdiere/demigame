@@ -28,6 +28,9 @@ ponyo_img = pyglet.resource.image("ponyo.png")
 util.center_body(ponyo_img)
 
 
+# Environment resources
+tree_bg_img = pyglet.resource.image("tree_bg.png")
+
 # Weapon resources ---------------------------------------------------
 pistol_img = pyglet.resource.image("pistol.png")
 util.center_body(pistol_img)

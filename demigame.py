@@ -7,6 +7,9 @@ win = pyglet.window.Window(fullscreen=True)
 # Our batch for holding all objects to be drawn.
 b_obj = pyglet.graphics.Batch()
 
+# Our background batch, do be drawn under all other objects.
+bg_obj = pyglet.graphics.Batch()
+
 # Write info strings to the bottom of the screen.
 help_msg = "Controls: WASD for movement, Mouse for look."
 help_lbl = pyglet.text.Label(text=help_msg, x=10, y=30, batch=b_obj)
@@ -19,8 +22,13 @@ hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300,
                         player_img=resource.hero_img, walk_anim=resource.hero_animwalk,
                         x=500, y=500, batch=b_obj)
 
+# Create a background
+tree_bg = pyglet.sprite.Sprite(img=resource.tree_bg_img,
+          x=win.width/2 - resource.tree_bg_img.width/2, 
+          y=win.height/2 - resource.tree_bg_img.height/2, batch=bg_obj)
+
 # Add objects to environment
-pistol = weapon.Weapon(x=100, y=100, batch=b_obj)
+pistol = weapon.Weapon(x=200, y=100, batch=b_obj)
 
 # Account for all of our interactive game objects.
 g_objs = [hero, pistol]
@@ -56,6 +64,7 @@ def update(dt):
 @win.event
 def on_draw():
     win.clear()
+    bg_obj.draw()
     b_obj.draw()
 
 if __name__ == "__main__":
