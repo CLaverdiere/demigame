@@ -20,20 +20,25 @@ demi_lbl = pyglet.text.Label(text=demi_msg, x=10, y=10, batch=b_obj)
 # Create sprites / players.
 hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300, 
                         player_img=resource.hero_img, walk_anim=resource.hero_animwalk,
-                        x=500, y=500, batch=b_obj)
+                        x=win.width/2, y=win.height/2, batch=b_obj)
 
 # Create a background
-tree_bg = pyglet.sprite.Sprite(img=resource.tree_bg_img,
-          x=win.width/2 - resource.tree_bg_img.width/2, 
-          y=win.height/2 - resource.tree_bg_img.height/2, batch=bg_obj)
+# tree_bg = i_sprite.ISprite(img=resource.tree_bg_img,
+#           x=win.width/2 - resource.tree_bg_img.width/2, 
+#           y=win.height/2 - resource.tree_bg_img.height/2, batch=bg_obj)
+
+desert_bg = i_sprite.ISprite(img=resource.desert_bg_img, 
+            x=hero.x, y=hero.y, batch=bg_obj)
 
 # Add objects to environment
 pistol = weapon.Weapon(x=200, y=100, batch=b_obj)
 
 # Account for all of our interactive game objects.
-g_objs = [hero, pistol]
+g_objs = [desert_bg, pistol]
 
 # Handle handlers.
+for handler in hero.event_handlers:
+    win.push_handlers(handler)
 for obj in g_objs:
     for handler in obj.event_handlers:
         win.push_handlers(handler)
@@ -58,8 +63,16 @@ def update(dt):
                 o1.handle_collision(o2)
                 o2.handle_collision(o1)
 
+    # Update all environment objects relative to player.
     for obj in g_objs:
-        obj.update(dt)
+        obj.update(dt, hero)
+
+    # Update our player
+    hero.update(dt)
+
+    # Update anchor points of background
+    desert_bg.anchor_x = hero.x
+    desert_bg.anchor_y = hero.y
 
 @win.event
 def on_draw():

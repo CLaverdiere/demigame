@@ -20,20 +20,31 @@ class ISprite(pyglet.sprite.Sprite):
         # Removing indicates the removal animation should activate.
         self.removing = False
 
+        # Track sprite displacement so that environment objects can move in
+        #   response to the player, while keeping the player centered.
+        self.disp_x = self.x 
+        self.disp_y = self.y
+        self.disp_r = self.rotation  # Rotational displacement
+
     def add_duty(self, func):
         self.duty_list.append(func)
 
     def check_bounds(self):
         pass
 
-    def update(self, dt):
+    def update(self, dt, player):
         # if self.removing:
         #     self.opacity -= 5
         # if self.opacity < 0:
         #     self.remove = True
 
-        for func in self.duty_list:
-            func(self)
+        # for func in self.duty_list:
+        #     func(self)
+
+        # Update sprite positions relative to player.
+        self.x = self.disp_x + player.disp_x
+        self.y = self.disp_y + player.disp_y
+        self.rotation = self.disp_r + player.disp_r
 
     def collides(self, other):
         w_max = (self.width / 2) + (other.width / 2)
@@ -46,6 +57,9 @@ class ISprite(pyglet.sprite.Sprite):
             return True
         else:
             return False
+
+    def handle_collision(self, other):
+        pass
 
     def waddle(self):
         if not random.randint(1,7) % 7:
