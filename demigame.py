@@ -24,8 +24,8 @@ hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300,
 
 # Create a background
 tree_bg = pyglet.sprite.Sprite(img=resource.tree_bg_img,
-          x=win.width/2 - resource.tree_bg_img.width/2, 
-          y=win.height/2 - resource.tree_bg_img.height/2, batch=bg_obj)
+          x=win.width/2, 
+          y=win.height/2, batch=bg_obj)
 
 # Add objects to environment
 pistol = weapon.Weapon(x=200, y=100, batch=b_obj)
