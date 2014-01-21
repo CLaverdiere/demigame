@@ -23,18 +23,16 @@ hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300,
                         x=win.width/2, y=win.height/2, batch=b_obj)
 
 # Create a background
-# tree_bg = i_sprite.ISprite(img=resource.tree_bg_img,
-#           x=win.width/2 - resource.tree_bg_img.width/2, 
-#           y=win.height/2 - resource.tree_bg_img.height/2, batch=bg_obj)
-
-desert_bg = i_sprite.ISprite(img=resource.desert_bg_img, 
+tree_bg = i_sprite.ISprite(img=resource.tree_bg_img, 
             x=hero.x, y=hero.y, batch=bg_obj)
+# desert_bg = i_sprite.ISprite(img=resource.desert_bg_img, 
+#             x=hero.x, y=hero.y, batch=bg_obj)
 
 # Add objects to environment
 pistol = weapon.Weapon(x=200, y=100, batch=b_obj)
 
 # Account for all of our interactive game objects.
-g_objs = [desert_bg, pistol]
+g_objs = [tree_bg, pistol]
 
 # Handle handlers.
 for handler in hero.event_handlers:
@@ -69,10 +67,6 @@ def update(dt):
 
     # Update our player
     hero.update(dt)
-
-    # Update anchor points of background
-    desert_bg.anchor_x = hero.x
-    desert_bg.anchor_y = hero.y
 
 @win.event
 def on_draw():

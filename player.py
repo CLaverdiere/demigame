@@ -1,12 +1,13 @@
 import pyglet
 import resource, i_sprite, util, weapon
-import math
+from math import *
 from pyglet.window import key
 
 class Player(i_sprite.ISprite):
     def __init__(self, lives=3,
                        name="Default Player",
                        walk_speed=250,
+                       run_speed_mult=2.5,
                        mass=75,
                        player_img=resource.ponyo_img,
                        walk_anim=None,
@@ -34,25 +35,35 @@ class Player(i_sprite.ISprite):
         self.walking = False
         self.mouse_angle = 0.0
 
+        # Running
+        self.running = False
+        self.run_speed_mult = run_speed_mult
+
     def on_mouse_motion(self, x, y, dx, dy):
         # Make our player face the mouse.
         #   Also make sure our x component isn't 0 to avoid division errors.
-        self.disp_r += dx * .5
+        self.disp_r -= dx * .5
 
     def update(self, dt):
         # Movement controls, WASD.
-        if self.keyh[key.A]:
-            self.disp_x -= self.walk_speed * math.sin(math.radians(self.disp_r)) * dt
-            self.disp_y += self.walk_speed * math.cos(math.radians(self.disp_r)) * dt
-        elif self.keyh[key.D]:
-            self.disp_x += self.walk_speed * math.sin(math.radians(self.disp_r)) * dt
-            self.disp_y -= self.walk_speed * math.cos(math.radians(self.disp_r)) * dt
         if self.keyh[key.W]:
-            self.disp_x += self.walk_speed * math.cos(math.radians(self.disp_r)) * dt
-            self.disp_y += self.walk_speed * math.sin(math.radians(self.disp_r)) * dt
+            self.disp_x -= self.walk_speed * sin(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
+            self.disp_y += self.walk_speed * cos(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
         elif self.keyh[key.S]:
-            self.disp_x -= self.walk_speed * math.cos(math.radians(self.disp_r)) * dt / 2
-            self.disp_y -= self.walk_speed * math.sin(math.radians(self.disp_r)) * dt / 2
+            self.disp_x += self.walk_speed * sin(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt / 2
+            self.disp_y -= self.walk_speed * cos(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt / 2
+        if self.keyh[key.D]:
+            self.disp_x += self.walk_speed * cos(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
+            self.disp_y += self.walk_speed * sin(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
+        elif self.keyh[key.A]:
+            self.disp_x -= self.walk_speed * cos(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
+            self.disp_y -= self.walk_speed * sin(radians(self.disp_r)) * (self.running * self.run_speed_mult or 1) * dt
+
+        # Sprint control
+        if self.keyh[key.LSHIFT]:
+            self.running = True
+        else:
+            self.running = False
 
         # Only set the animation once a key is pressed.
         if not self.walking:

@@ -42,8 +42,8 @@ class ISprite(pyglet.sprite.Sprite):
         #     func(self)
 
         # Update sprite positions relative to player.
-        self.x = self.disp_x + player.disp_x
-        self.y = self.disp_y + player.disp_y
+        self.image.anchor_x = self.disp_x + player.disp_x
+        self.image.anchor_y = self.disp_y + player.disp_y
         self.rotation = self.disp_r + player.disp_r
 
     def collides(self, other):
