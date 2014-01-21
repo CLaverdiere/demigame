@@ -19,14 +19,19 @@ Here's what I'm thinking at the moment:
 Running Demigame
 ---------------------------
 1. Install pyglet for python2. (Ubuntu)
+    ```bash
       sudo apt-get install python-pyglet
+    ```
 
 2. Clone this project
+    ```bash
       git clone https://github.com/CLaverdiere/demigame.git
+    ```
 
 3. Run demigame.py
+    ```bash
       cd demigame
       python demigame.py
-
+    ```
 
 Disclaimer: I am not a competent artist :(
