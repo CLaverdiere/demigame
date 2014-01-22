@@ -4,7 +4,11 @@ import pyglet
 import random
 
 class ISprite(pyglet.sprite.Sprite):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, 
+                 disp_x=0, 
+                 disp_y=0, 
+                 disp_r=0, 
+                 *args, **kwargs):
         super(ISprite, self,).__init__(*args, **kwargs)
 
         # Keep track of all events happening
@@ -22,9 +26,9 @@ class ISprite(pyglet.sprite.Sprite):
 
         # Track sprite displacement so that environment objects can move in
         #   response to the player, while keeping the player centered.
-        self.disp_x = self.x 
-        self.disp_y = self.y
-        self.disp_r = self.rotation  # Rotational displacement
+        self.disp_x = disp_x or self.x
+        self.disp_y = disp_y or self.y
+        self.disp_r = disp_r or self.rotation  # Rotational displacement
 
     def add_duty(self, func):
         self.duty_list.append(func)
@@ -50,8 +54,12 @@ class ISprite(pyglet.sprite.Sprite):
         w_max = (self.width / 2) + (other.width / 2)
         h_max = (self.height / 2) + (other.height / 2)
 
-        w_dist = abs(self.x - other.x)
-        h_dist = abs(self.y - other.y)
+        w_dist = abs(abs(self.disp_x) - abs(other.disp_x))
+        h_dist = abs(abs(self.disp_y) - abs(other.disp_y))
+
+        print self, other, 
+        print w_dist, h_dist
+        print w_max, h_max
 
         if w_dist < w_max and h_dist < h_max:
             return True

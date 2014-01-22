@@ -4,35 +4,40 @@ import resource, player, i_sprite, weapon, bullet
 win = pyglet.window.Window(fullscreen=True)
 # win = pyglet.window.Window(height=800, width=800)
 
-# Our batch for holding all objects to be drawn.
-b_obj = pyglet.graphics.Batch()
+# Game objects batch for holding all interactive game objects.
+b_gameobj = pyglet.graphics.Batch()
 
-# Our background batch, do be drawn under all other objects.
-bg_obj = pyglet.graphics.Batch()
+# Background batch, do be drawn under all other objects.
+b_bg = pyglet.graphics.Batch()
+
+# Environment batch, to hold all non interactive environmental objects.
+b_env = pyglet.graphics.Batch()
 
 # Write info strings to the bottom of the screen.
-help_msg = "Controls: WASD for movement, Mouse for look."
-help_lbl = pyglet.text.Label(text=help_msg, x=10, y=30, batch=b_obj)
+help_msg = "Controls: WASD for movement, Mouse for look. Shift to run."
+help_lbl = pyglet.text.Label(text=help_msg, x=10, y=30, batch=b_gameobj)
 
 demi_msg = "Demigame prototype. Not ready for critical acclaim."
-demi_lbl = pyglet.text.Label(text=demi_msg, x=10, y=10, batch=b_obj)
+demi_lbl = pyglet.text.Label(text=demi_msg, x=10, y=10, batch=b_gameobj)
 
 # Create sprites / players.
 hero = player.Player(lives=3, name="Hero", walk_speed=300, mass=300, 
                         player_img=resource.hero_img, walk_anim=resource.hero_animwalk,
-                        x=win.width/2, y=win.height/2, batch=b_obj)
+                        x=win.width/2, y=win.height/2, batch=b_gameobj)
 
 # Create a background
 tree_bg = i_sprite.ISprite(img=resource.tree_bg_img, 
-            x=hero.x, y=hero.y, batch=bg_obj)
+            x=hero.x, y=hero.y, batch=b_bg)
 # desert_bg = i_sprite.ISprite(img=resource.desert_bg_img, 
-#             x=hero.x, y=hero.y, batch=bg_obj)
+#             x=hero.x, y=hero.y, batch=b_bg)
 
 # Add objects to environment
-pistol = weapon.Weapon(x=200, y=100, batch=b_obj)
+pistol = weapon.Weapon(x=hero.x, y=hero.y, 
+                       disp_x=-400, disp_y=300, batch=b_gameobj)
 
-# Account for all of our interactive game objects.
-g_objs = [tree_bg, pistol]
+# Account for all of our interactive / non-interactive game objects.
+bg_objs = [tree_bg]
+g_objs = [hero, pistol]
 
 # Handle handlers.
 for handler in hero.event_handlers:
@@ -62,7 +67,7 @@ def update(dt):
                 o2.handle_collision(o1)
 
     # Update all environment objects relative to player.
-    for obj in g_objs:
+    for obj in g_objs[1:] + bg_objs:
         obj.update(dt, hero)
 
     # Update our player
@@ -71,8 +76,9 @@ def update(dt):
 @win.event
 def on_draw():
     win.clear()
-    bg_obj.draw()
-    b_obj.draw()
+    b_bg.draw()
+    b_env.draw()
+    b_gameobj.draw()
 
 if __name__ == "__main__":
     init()
